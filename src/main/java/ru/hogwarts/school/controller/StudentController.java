@@ -1,11 +1,10 @@
-package controller;
+package ru.hogwarts.school.controller;
 
-import model.Student;
+import ru.hogwarts.school.model.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.StudentService;
-import service.StudentServiceImpl;
+import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;

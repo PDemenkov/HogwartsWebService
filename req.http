@@ -3,6 +3,34 @@ POST http://localhost:8080/student
 Content-Type: application/json
 
 {
+  "id": 2,
   "name": "Harry",
   "age" : 34
 }
+###
+POST http://localhost:8080/student
+Content-Type: application/json
+
+{
+"id": 1,
+"name": "Hermi",
+"age" : 15
+}
+
+### Student info
+GET http://localhost:8080/student/1
+
+### Edit Student
+PUT http://localhost:8080/student/1
+Content-Type: application/json
+
+{
+"name": "Harry",
+"age" : 15
+}
+
+### Delete
+DELETE http://localhost:8080/student/1
+
+### Find byAGe
+GET http://localhost:8080/student/34

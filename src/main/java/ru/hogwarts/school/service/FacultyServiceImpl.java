@@ -1,6 +1,6 @@
-package service;
+package ru.hogwarts.school.service;
 
-import model.Faculty;
+import ru.hogwarts.school.model.Faculty;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -1,6 +1,6 @@
-package service;
+package ru.hogwarts.school.service;
 
-import model.Student;
+import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,12 +12,13 @@ public class StudentServiceImpl implements StudentService {
     private final HashMap<Long, Student> students = new HashMap<>();
     private long count = 0;
 
+
     @Override
     public Student addStudent(Student student) {
-        student.setId(count++);
-        students.put(student.getId(), student);
-        return student;
-    }
+            student.setId(count++);
+            students.put(student.getId(), student);
+            return student;
+        }
 
     @Override
     public Student findStudent(long id) {
