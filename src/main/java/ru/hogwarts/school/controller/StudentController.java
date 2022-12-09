@@ -1,5 +1,10 @@
 package ru.hogwarts.school.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import ru.hogwarts.school.model.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,39 +24,48 @@ public class StudentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    @Operation(summary = "Returns a student by id",
+            tags = "student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Student model",
+                    content = @Content(schema = @Schema(implementation = Student.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Student not found",
+    content = @Content)})
+    public Student getStudentInfo(@PathVariable Long id) {
+        return this.studentService.findStudent(id);
     }
 
     @PostMapping()
+    @Operation(summary = "Create a new Student",tags = "student")
     public Student createStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
+    @GetMapping("/getAll")
+    @Operation(summary = "Returns list of All students", tags = "student")
+    public Collection<Student> getAllStud() {
+        return studentService.getAllStud();
+    }
+
     @PutMapping("{id}")
-    public ResponseEntity<Student> editStudent(@RequestBody Student student,@PathVariable Long id) {
-        Student foundStudent = studentService.editStudent(id, student);
-        if (foundStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundStudent);
+    @Operation(summary = "Update student by id", tags = "student")
+    public Student editStudent(@RequestBody Student student,@PathVariable Long id) {
+        return this.studentService.editStudent(id, student);
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Delete student by id",tags = "student")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age) {
-        if (age > 0) {
-            return ResponseEntity.ok(studentService.findByAge(age));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+    @GetMapping("/age/{age}")
+    @Operation(summary = "Return students by age",tags = "student")
+    public Collection<Student> findStudents(@PathVariable int age) {
+        return this.studentService.findByAge(age);
+
     }
 }

@@ -1,11 +1,13 @@
 package ru.hogwarts.school.service;
 
+import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -15,38 +17,50 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
-            student.setId(++count);
-            students.put(student.getId(), student);
+        long newId = this.count++;
+            student.setId(newId);
+            students.put(newId, student);
             return student;
         }
 
     @Override
     public Student findStudent(long id) {
-        return students.get(id);
+        if (this.students.containsKey(id)) {
+            return students.get(id);
+        } else {
+            throw new StudentNotFoundException();
+        }
     }
 
     @Override
     public Student editStudent(long id, Student student) {
         if (!students.containsKey(id)) {
-            return null;
+            throw new StudentNotFoundException();
         }
-        students.put(id, student);
-        return student;
+        Student oldStud = this.students.get(id);
+        oldStud.setAge(student.getAge());
+        oldStud.setName(student.getName());
+        return oldStud;
     }
 
     @Override
     public void deleteStudent(long id) {
-        students.remove(id);
+        if (this.students.containsKey(id)) {
+            this.students.remove(id);
+        } else {
+            throw new StudentNotFoundException();
+        }
     }
 
     @Override
     public Collection<Student> findByAge(int age) {
-        ArrayList<Student> result = new ArrayList<>();
-        for (Student student : students.values()) {
-            if (student.getAge() == age) {
-                result.add(student);
-            }
-        }
-        return result;
+        return this.students.values().stream()
+                .filter(s->s.getAge()==age)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Student> getAllStud() {
+        return students.values();
     }
 }
