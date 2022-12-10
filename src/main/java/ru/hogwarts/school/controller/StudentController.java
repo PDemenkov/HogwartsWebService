@@ -66,7 +66,7 @@ public class StudentController {
     @DeleteMapping("{id}")
     @Operation(summary = "Delete student by id",tags = "student")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Student has benn deleted"),
+            @ApiResponse(responseCode = "200", description = "Student has been deleted"),
             @ApiResponse(responseCode = "404",description = "Student not found")
     })
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {

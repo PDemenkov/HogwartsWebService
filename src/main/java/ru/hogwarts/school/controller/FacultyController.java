@@ -70,7 +70,7 @@ public class FacultyController {
     @DeleteMapping("{id}")
     @Operation(summary = "Delete Faculty",tags = "faculty")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Faculty has benn deleted"),
+            @ApiResponse(responseCode = "200", description = "Faculty has been deleted"),
             @ApiResponse(responseCode = "404",description = "Faculty not found")
     })
     public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
