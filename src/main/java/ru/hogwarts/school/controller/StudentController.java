@@ -31,16 +31,16 @@ public class StudentController {
                     content = @Content(schema = @Schema(implementation = Student.class))),
             @ApiResponse(responseCode = "404",
                     description = "Student not found",
-    content = @Content)})
+                    content = @Content)})
     public Student getStudentInfo(@PathVariable Long id) {
         return this.studentService.findStudent(id);
     }
 
     @PostMapping()
-    @Operation(summary = "Create a new Student",tags = "student")
+    @Operation(summary = "Create a new Student", tags = "student")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description = "Created student"),
-            @ApiResponse(responseCode = "400",description = "Bad request. Student consist of type String")
+            @ApiResponse(responseCode = "200", description = "Created student"),
+            @ApiResponse(responseCode = "400", description = "Bad request. Student consist of type String")
     })
     public Student createStudent(@RequestBody Student student) {
         return studentService.addStudent(student);
@@ -48,26 +48,26 @@ public class StudentController {
 
     @GetMapping("/getAll")
     @Operation(summary = "Returns list of All students", tags = "student")
-    @ApiResponse(responseCode = "200",description = "List of all students")
+    @ApiResponse(responseCode = "200", description = "List of all students")
     public Collection<Student> getAllStud() {
         return studentService.getAllStud();
     }
 
     @PutMapping("{id}")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description = "Student has been updated"),
-            @ApiResponse(responseCode = "404",description = "Student not found")
+            @ApiResponse(responseCode = "200", description = "Student has been updated"),
+            @ApiResponse(responseCode = "404", description = "Student not found")
     })
     @Operation(summary = "Update student by id", tags = "student")
-    public Student editStudent(@RequestBody Student student,@PathVariable Long id) {
+    public Student editStudent(@RequestBody Student student, @PathVariable Long id) {
         return this.studentService.editStudent(id, student);
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete student by id",tags = "student")
+    @Operation(summary = "Delete student by id", tags = "student")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Student has been deleted"),
-            @ApiResponse(responseCode = "404",description = "Student not found")
+            @ApiResponse(responseCode = "404", description = "Student not found")
     })
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
@@ -75,8 +75,8 @@ public class StudentController {
     }
 
     @GetMapping("/age/{age}")
-    @Operation(summary = "Return students by age",tags = "student")
-    @ApiResponse(responseCode = "200",description = "List of students in this age")
+    @Operation(summary = "Return students by age", tags = "student")
+    @ApiResponse(responseCode = "200", description = "List of students in this age")
     public Collection<Student> findStudents(@PathVariable int age) {
         return this.studentService.findByAge(age);
     }

@@ -3,64 +3,47 @@ package ru.hogwarts.school.service;
 import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.repo.StudentRepo;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final HashMap<Long, Student> students = new HashMap<>();
-    private long count = 0;
+    private StudentRepo studentRepo;
 
+    public StudentServiceImpl(StudentRepo studentRepo) {
+        this.studentRepo = studentRepo;
+    }
 
     @Override
     public Student addStudent(Student student) {
-        long newId = this.count++;
-            student.setId(newId);
-            students.put(newId, student);
-            return student;
-        }
+        return this.studentRepo.save(student);
+    }
 
     @Override
     public Student findStudent(long id) {
-        if (this.students.containsKey(id)) {
-            return students.get(id);
-        } else {
-            throw new StudentNotFoundException();
-        }
+        return this.studentRepo.findById(id).get();
     }
 
     @Override
     public Student editStudent(long id, Student student) {
-        if (!students.containsKey(id)) {
-            throw new StudentNotFoundException();
-        }
-        Student oldStud = this.students.get(id);
-        oldStud.setAge(student.getAge());
-        oldStud.setName(student.getName());
-        return oldStud;
+        return this.studentRepo.save(student);
     }
 
     @Override
     public void deleteStudent(long id) {
-        if (this.students.containsKey(id)) {
-            this.students.remove(id);
-        } else {
-            throw new StudentNotFoundException();
-        }
+        this.studentRepo.deleteById(id);
     }
 
     @Override
     public Collection<Student> findByAge(int age) {
-        return this.students.values().stream()
-                .filter(s->s.getAge()==age)
-                .collect(Collectors.toList());
+        return studentRepo.findByAge(age);
     }
 
     @Override
     public Collection<Student> getAllStud() {
-        return students.values();
+        return this.studentRepo.findAll();
     }
 }
