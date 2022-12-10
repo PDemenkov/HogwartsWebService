@@ -1,14 +1,10 @@
 package ru.hogwarts.school.service;
 
-import ru.hogwarts.school.exception.FacultyNotFoundException;
-import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import org.springframework.stereotype.Service;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repo.FacultyRepo;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -47,4 +43,9 @@ public class FacultyServiceImpl implements FacultyService {
     public Collection<Faculty> getAllFac() {
         return this.facultyRepo.findAll();
     }
+    @Override
+    public Collection<Faculty> findFacultyByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
+        return facultyRepo.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
+
 }

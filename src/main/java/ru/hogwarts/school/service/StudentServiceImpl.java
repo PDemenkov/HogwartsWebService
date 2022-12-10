@@ -1,13 +1,10 @@
 package ru.hogwarts.school.service;
 
-import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.repo.StudentRepo;
 
 import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -46,4 +43,10 @@ public class StudentServiceImpl implements StudentService {
     public Collection<Student> getAllStud() {
         return this.studentRepo.findAll();
     }
+
+    @Override
+    public Collection<Student> findAllByAgeBetween(int from, int to) {
+        return this.studentRepo.findAllByAgeBetween(from,to);
+    }
+
 }

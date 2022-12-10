@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Faculty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
@@ -79,5 +80,18 @@ public class FacultyController {
     @ApiResponse(responseCode = "200", description = "List of faculties of this color")
     public Collection<Faculty> findFaculties(@RequestParam(required = false) String color) {
         return this.facultyService.findByColor(color);
+    }
+
+    @GetMapping("/search/fac")
+    @Operation(summary = "Find fac by name or color",tags = "faculty")
+    public ResponseEntity<Collection<Faculty>> FindFaculty(@RequestParam(required = false) String name,
+                                                           @RequestParam(required = false) String color) {
+        return ResponseEntity.ok(facultyService.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color));
+    }
+
+    @GetMapping("/search/students{id}")
+    @Operation(summary = "Получить у деканата список студентов факультета",tags = "faculty")
+    public Collection<Student> findStudentsFaculty(@PathVariable Long id) {
+        return   facultyService.findFaculty(id).getStudents();
     }
 }

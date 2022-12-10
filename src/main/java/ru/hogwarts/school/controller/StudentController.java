@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -79,5 +80,22 @@ public class StudentController {
     @ApiResponse(responseCode = "200", description = "List of students in this age")
     public Collection<Student> findStudents(@PathVariable int age) {
         return this.studentService.findByAge(age);
+    }
+
+    @GetMapping
+    @Operation(summary = "Return students Between age",tags = "student")
+    @ApiResponse(responseCode = "200", description = "List of students between age")
+    public Collection<Student> findAllByAgeBetween(@RequestParam int from, @RequestParam int to) {
+        return this.studentService.findAllByAgeBetween(from,to);
+    }
+
+    @GetMapping("/search{id}")
+    @Operation(summary = "Find in which faculty this student is in",tags = "student")
+    @ApiResponses({
+            @ApiResponse(responseCode = "500", description = "Student does not exist"),
+            @ApiResponse(responseCode = "200", description = "Schema of Faculty")
+    })
+    public Faculty findFacultyStudents(@PathVariable Long id) {
+        return studentService.findStudent(id).getFaculty();
     }
 }
