@@ -90,7 +90,7 @@ public class FacultyController {
     }
 
     @GetMapping("/search/students{id}")
-    @Operation(summary = "Получить у деканата список студентов факультета",tags = "faculty")
+    @Operation(summary = "Get from faculty list of students",tags = "faculty")
     public Collection<Student> findStudentsFaculty(@PathVariable Long id) {
         return   facultyService.findFaculty(id).getStudents();
     }

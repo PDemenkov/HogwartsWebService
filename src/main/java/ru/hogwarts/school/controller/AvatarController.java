@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.hibernate.result.internal.OutputsImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,15 @@ public class AvatarController {
         this.avatarService = AvatarServiceImpl;
     }
 
-    @PostMapping(value = "/{id}/avatar",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Upload an avatar", tags = "avatar")
     public ResponseEntity<String> uploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
         avatarService.uploadAvatar(id, avatar);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/{id}/avatar/preview")
+    @Operation(summary = "Preview an avatar", tags = "avatar")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
         Avatar avatar = avatarService.findAvatar(id);
 
@@ -48,6 +51,7 @@ public class AvatarController {
     }
 
     @GetMapping(value = "/{id}/avatar")
+    @Operation(summary = "Download an avatar", tags = "avatar")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarService.findAvatar(id);
 
