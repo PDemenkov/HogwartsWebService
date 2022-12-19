@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatar")
@@ -34,7 +35,22 @@ public class AvatarController {
         avatarService.uploadAvatar(id, avatar);
         return ResponseEntity.ok().build();
     }
-
+    @GetMapping("/avatarList")
+    ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber,@RequestParam("size")Integer pageSize) {
+        List<Avatar> avatar = avatarService.getAllAvatars(pageNumber, pageSize);
+        return ResponseEntity.ok(avatar);
+    }
+//    @GetMapping("/avatarListAll")
+//   public ResponseEntity <byte[]> getAllAvatars3(@RequestParam("page") Integer pageNumber,@RequestParam("size")Integer pageSize) {
+//        Avatar avatar = avatarService.findAllAvatars(pageNumber, pageSize);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
+//        headers.setContentLength(avatar.getData().length);
+//         return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .headers(headers)
+//                .body(avatar.getData());
+//    }
     @GetMapping(value = "/{id}/avatar/preview")
     @Operation(summary = "Preview an avatar", tags = "avatar")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
@@ -66,5 +82,4 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
-
 }

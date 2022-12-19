@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -15,13 +16,14 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 
 @Service
 @Transactional
-public class AvatarServiceImpl implements AvatarService{
+public class AvatarServiceImpl implements AvatarService {
 
     private final AvatarRepo avatarRepo;
     private final StudentRepo studentRepo;
@@ -67,7 +69,7 @@ public class AvatarServiceImpl implements AvatarService{
             int height = image.getHeight() / (image.getWidth() / 100);
             BufferedImage preview = new BufferedImage(100, height, image.getType());
             Graphics2D graphics2D = preview.createGraphics();
-            graphics2D.drawImage(image,0,0,100,height,null);
+            graphics2D.drawImage(image, 0, 0, 100, height, null);
             graphics2D.dispose();
 
             ImageIO.write(preview, getExtension(filePath.getFileName().toString()), baos);
@@ -83,4 +85,17 @@ public class AvatarServiceImpl implements AvatarService{
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
+
+    @Override
+    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        var pageRequest = PageRequest.of(0, 10);
+//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return avatarRepo.findAll(pageRequest).getContent();
+    }
+
+//    @Override
+//    public Avatar findAllAvatars(Integer pageNumber, Integer pageSize) {
+//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+//        return (Avatar) avatarRepo.findAll(pageRequest).getContent();
+//    }
 }

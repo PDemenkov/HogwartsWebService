@@ -2,16 +2,20 @@ package ru.hogwarts.school.service;
 
 import ru.hogwarts.school.model.Student;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.repo.CountRepo;
 import ru.hogwarts.school.repo.StudentRepo;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     private StudentRepo studentRepo;
+    private CountRepo countRepo;
 
-    public StudentServiceImpl(StudentRepo studentRepo) {
+    public StudentServiceImpl(StudentRepo studentRepo, CountRepo countRepo) {
         this.studentRepo = studentRepo;
+        this.countRepo = countRepo;
     }
 
     @Override
@@ -49,4 +53,15 @@ public class StudentServiceImpl implements StudentService {
         return this.studentRepo.findAllByAgeBetween(from,to);
     }
 
+    public Integer getStudentsCount() {
+     return  countRepo.getAllByIdIsNotNull();
+    }
+
+    public Double getAverageAge() {
+        return countRepo.getAverageAge();
+    }
+
+    public List<Student> getStudGreaterIdDesc5() {
+        return countRepo.getStudentByAgeIsGreaterThanOrderById();
+    }
 }
