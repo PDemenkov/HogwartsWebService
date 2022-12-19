@@ -1,5 +1,6 @@
 package ru.hogwarts.school;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,10 +11,13 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.hogwarts.school.controller.FacultyController;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repo.FacultyRepo;
 import ru.hogwarts.school.service.FacultyService;
+
 import static org.mockito.ArgumentMatchers.any;
+
 import java.util.Collections;
 import java.util.Optional;
 
@@ -22,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
-public class FacultyController {
+@WebMvcTest(controllers = FacultyController.class)
+public class FacultyControllerMockTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,6 +40,9 @@ public class FacultyController {
 
     @InjectMocks
     private FacultyController facultyController;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void testStudents() throws Exception {

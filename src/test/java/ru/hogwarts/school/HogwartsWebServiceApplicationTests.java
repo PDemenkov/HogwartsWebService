@@ -21,8 +21,10 @@ class HogwartsWebServiceApplicationTests {
 
     @Autowired
     private StudentService studentService;
+
     @Autowired
     private TestRestTemplate testRestTemplate;
+
     @Autowired
     private StudentRepo studentRepo;
 
