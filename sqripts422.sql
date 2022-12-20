@@ -41,7 +41,7 @@ INSERT INTO car ( model, brand, price) VALUES ( 'bmw','m3',3000000);
 
 -----проверка
 select name,age,brand
-       from student
+       from person
 NATURAL JOIN car c ;
 
 select name,price,brand
