@@ -76,16 +76,6 @@ public class FacultyControllerMockTests {
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
 
-//        mockMvc.perform(MockMvcRequestBuilders
-//                        .put("/faculty/" + id)
-//                        .content(facultyObject.toString())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(id))
-//                .andExpect(jsonPath("$.name").value(name))
-//                .andExpect(jsonPath("$.color").value(color));
-
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/" + id)
                         .accept(MediaType.APPLICATION_JSON))
@@ -94,13 +84,11 @@ public class FacultyControllerMockTests {
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
 
-//        mockMvc.perform(MockMvcRequestBuilders
-//                        .get("/faculty?color" + color)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(id))
-//                .andExpect(jsonPath("$.name").value(name))
-//                .andExpect(jsonPath("$.color").value(color));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty")
+                        .queryParam("color",color)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculty/" + id)
