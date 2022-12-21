@@ -1,19 +1,20 @@
--- С прошлых уроков у нас есть две таблицы: Student и Faculty. Необходимо для них создать следующие ограничения:
---
 -- - Возраст студента не может быть меньше 16 лет.
+ALTER TABLE student
+    add CONSTRAINT age_check check ( age >= 16 );
 -- - Имена студентов должны быть уникальными и не равны нулю.
--- - Пара “значение названия” - “цвет факультета” должна быть уникальной.
--- - При создании студента без возраста ему автоматически должно присваиваться 20 лет.
+ALTER TABLE student
+    add CONSTRAINT name_unique_notNull UNIQUE (name);
+ALTER TABLE student
+    alter column name set not null;
+--Пара “значение названия” - “цвет факультета” должна быть уникальной.
+ALTER TABLE faculty
+    add CONSTRAINT name_color_unique UNIQUE (name, color);
+-- - При создании студента без возраста ему автоматически должно присваиваться 20 лет
+ALTER TABLE student
+    alter column age set default 20;
 
-create table student
-(
-    id   integer primary key ,
-    name text UNIQUE not null ,
-    age  integer check ( age >= 16 ) default 20
-);
 
-create table faculty(
-    id integer primary key,
-    name text UNIQUE not null,
-    color text UNIQUE not null
-)
+
+
+
+
