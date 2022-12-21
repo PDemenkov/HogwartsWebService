@@ -1,5 +1,6 @@
 package ru.hogwarts.school;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,8 +14,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.controller.StudentController;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repo.AvatarRepo;
+import ru.hogwarts.school.repo.CountRepo;
 import ru.hogwarts.school.repo.StudentRepo;
 import ru.hogwarts.school.service.StudentServiceImpl;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -26,10 +29,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = StudentController.class)
 public class StudentMockTests {
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private CountRepo countRepo;
 
     @MockBean
     private StudentRepo studentRepo;
@@ -42,6 +48,9 @@ public class StudentMockTests {
 
     @InjectMocks
     private StudentController studentController;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void testStudents() throws Exception {
@@ -74,7 +83,7 @@ public class StudentMockTests {
                 .andExpect(jsonPath("$.age").value(age));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/student")
+                        .put("/student/" + id)
                         .content(studentObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -92,7 +101,7 @@ public class StudentMockTests {
                 .andExpect(jsonPath("$.age").value(age));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/student?age" + age)
+                        .get("/student/age/" + age)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(id))
@@ -102,7 +111,7 @@ public class StudentMockTests {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/student/" + id)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
 }

@@ -88,14 +88,8 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
-        var pageRequest = PageRequest.of(0, 10);
-//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepo.findAll(pageRequest).getContent();
     }
 
-//    @Override
-//    public Avatar findAllAvatars(Integer pageNumber, Integer pageSize) {
-//        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-//        return (Avatar) avatarRepo.findAll(pageRequest).getContent();
-//    }
 }

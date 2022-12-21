@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/counter")
 public class CountController {
 
-    StudentServiceImpl studentService;
+   private final StudentServiceImpl studentService;
 
     public CountController(StudentServiceImpl studentService) {
         this.studentService = studentService;
