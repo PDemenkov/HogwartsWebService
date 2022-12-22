@@ -37,6 +37,7 @@ public class AvatarController {
     }
 
     @GetMapping("/avatarList")
+    @Operation(summary = "list of avatars",tags = "avatar")
     ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
         List<Avatar> avatar = avatarService.getAllAvatars(pageNumber, pageSize);
         return ResponseEntity.ok(avatar);
