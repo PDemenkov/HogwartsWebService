@@ -47,7 +47,6 @@ public class FacultyControllerMockTests {
     private ObjectMapper objectMapper;
 
     @Test
-    @Disabled
     public void testStudents() throws Exception {
         final String name = "name1";
         final String color = "red";

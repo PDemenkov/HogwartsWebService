@@ -54,7 +54,6 @@ public class StudentMockTests {
     private ObjectMapper objectMapper;
 
     @Test
-    @Disabled
     public void testStudents() throws Exception {
         final String name = "name1";
         final int age = 19;
