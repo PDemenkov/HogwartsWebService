@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.context.annotation.Profile;
 import ru.hogwarts.school.model.Faculty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

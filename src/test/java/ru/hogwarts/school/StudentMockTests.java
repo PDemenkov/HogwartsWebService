@@ -2,6 +2,7 @@ package ru.hogwarts.school;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class StudentMockTests {
     private ObjectMapper objectMapper;
 
     @Test
+    @Disabled
     public void testStudents() throws Exception {
         final String name = "name1";
         final int age = 19;

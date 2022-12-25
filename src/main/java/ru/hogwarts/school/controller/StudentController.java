@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import org.springframework.http.ResponseEntity;

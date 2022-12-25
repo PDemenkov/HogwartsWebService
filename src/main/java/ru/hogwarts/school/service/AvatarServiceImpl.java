@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ public class AvatarServiceImpl implements AvatarService {
         this.avatarRepo = avatarRepo;
         this.studentRepo = studentRepo;
     }
+
+    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
@@ -79,7 +83,10 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar findAvatar(Long studentID) {
-        return avatarRepo.findByStudentId(studentID).orElse(new Avatar());
+        logger.info("Was invoked method to find Avatar");
+        Avatar avatarAva = avatarRepo.findByStudentId(studentID).orElse(new Avatar());
+        logger.info("Students avatar with {} found", studentID);
+        return avatarAva;
     }
 
     private String getExtension(String fileName) {
@@ -88,8 +95,11 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method to get all avatars");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
-        return avatarRepo.findAll(pageRequest).getContent();
+        List<Avatar> listAV = avatarRepo.findAll(pageRequest).getContent();
+        logger.info("Avatars with pageNumber as {} and pageSize as {}", pageNumber, pageSize);
+        return listAV;
     }
 
 }
