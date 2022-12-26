@@ -94,7 +94,7 @@ public class FacultyController {
     }
 
     @GetMapping("/search/BiggerName")
-    @Operation(summary = "Find faculty with most name length by stream",tags = "counter")
+    @Operation(summary = "Find faculty with most name length by stream",tags = "faculty")
     public Faculty findFacBiggerLengthStream() {
         return facultyService.findFacBiggerLength();
     }

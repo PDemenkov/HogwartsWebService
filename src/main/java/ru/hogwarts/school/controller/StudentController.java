@@ -100,13 +100,13 @@ public class StudentController {
     }
 
     @GetMapping("/search/letterA")
-    @Operation(summary = "Find all studs which name starts with 'A' by stream",tags = "counter")
+    @Operation(summary = "Find all studs which name starts with 'A' by stream",tags = "student")
     public Collection<Student> findAllSortedByAStream() {
         return studentService.findAllSortedByA();
     }
 
     @GetMapping("/search/avgAge")
-    @Operation(summary = "Average age of all students by stream", tags = "counter")
+    @Operation(summary = "Average age of all students by stream", tags = "student")
     public Double streamGetAverageAgeStream() {
         return studentService.streamGetAverageAge();
     }
