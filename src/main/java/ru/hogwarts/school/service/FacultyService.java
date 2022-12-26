@@ -19,6 +19,8 @@ public interface FacultyService {
     Collection<Faculty> getAllFac();
 
     Collection<Faculty> findFacultyByNameIgnoreCaseOrColorIgnoreCase(String name, String color);
+
+    Faculty findFacBiggerLength();
 }
 
 

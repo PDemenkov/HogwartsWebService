@@ -3,7 +3,6 @@ package ru.hogwarts.school.service;
 import ru.hogwarts.school.model.Student;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface StudentService {
     Student addStudent(Student student);
@@ -19,4 +18,8 @@ public interface StudentService {
     Collection<Student> getAllStud();
 
     Collection<Student> findAllByAgeBetween(int from, int to);
+
+    Collection<Student> findAllSortedByA();
+
+    Double streamGetAverageAge();
 }

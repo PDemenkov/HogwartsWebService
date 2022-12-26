@@ -3,16 +3,13 @@ package ru.hogwarts.school.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.context.annotation.Profile;
 import ru.hogwarts.school.model.Faculty;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/faculty")
@@ -84,15 +81,22 @@ public class FacultyController {
     }
 
     @GetMapping("/search/fac")
-    @Operation(summary = "Find fac by name or color",tags = "faculty")
+    @Operation(summary = "Find fac by name or color", tags = "faculty")
     public ResponseEntity<Collection<Faculty>> FindFaculty(@RequestParam(required = false) String name,
                                                            @RequestParam(required = false) String color) {
         return ResponseEntity.ok(facultyService.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color));
     }
 
     @GetMapping("/search/students{id}")
-    @Operation(summary = "Get from faculty list of students",tags = "faculty")
+    @Operation(summary = "Get from faculty list of students", tags = "faculty")
     public Collection<Student> findStudentsFaculty(@PathVariable Long id) {
-        return   facultyService.findFaculty(id).getStudents();
+        return facultyService.findFaculty(id).getStudents();
     }
+
+    @GetMapping("/search/BiggerName")
+    @Operation(summary = "Find faculty with most name length by stream",tags = "counter")
+    public Faculty findFacBiggerLengthStream() {
+        return facultyService.findFacBiggerLength();
+    }
+
 }

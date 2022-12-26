@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import org.springframework.http.ResponseEntity;
@@ -85,19 +83,31 @@ public class StudentController {
     }
 
     @GetMapping
-    @Operation(summary = "Return students Between age",tags = "student")
+    @Operation(summary = "Return students Between age", tags = "student")
     @ApiResponse(responseCode = "200", description = "List of students between age")
     public Collection<Student> findAllByAgeBetween(@RequestParam int from, @RequestParam int to) {
-        return this.studentService.findAllByAgeBetween(from,to);
+        return this.studentService.findAllByAgeBetween(from, to);
     }
 
     @GetMapping("/search{id}")
-    @Operation(summary = "Find in which faculty this student is in",tags = "student")
+    @Operation(summary = "Find in which faculty this student is in", tags = "student")
     @ApiResponses({
             @ApiResponse(responseCode = "500", description = "Student does not exist"),
             @ApiResponse(responseCode = "200", description = "Schema of Faculty")
     })
     public Faculty findFacultyStudents(@PathVariable Long id) {
         return studentService.findStudent(id).getFaculty();
+    }
+
+    @GetMapping("/search/letterA")
+    @Operation(summary = "Find all studs which name starts with 'A' by stream",tags = "counter")
+    public Collection<Student> findAllSortedByAStream() {
+        return studentService.findAllSortedByA();
+    }
+
+    @GetMapping("/search/avgAge")
+    @Operation(summary = "Average age of all students by stream", tags = "counter")
+    public Double streamGetAverageAgeStream() {
+        return studentService.streamGetAverageAge();
     }
 }

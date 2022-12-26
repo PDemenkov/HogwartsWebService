@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.repo.CountRepo;
 import ru.hogwarts.school.repo.StudentRepo;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -23,7 +22,7 @@ public class StudentServiceImpl implements StudentService {
         this.countRepo = countRepo;
     }
 
-    Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     @Override
     public Student addStudent(Student student) {
@@ -33,21 +32,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findStudent(long id) {
-        logger.info("Was invoked method find student by id {}",id);
+        logger.info("Was invoked method find student by id {}", id);
         Student findStud = this.studentRepo.findById(id).orElseThrow(StudentNotFoundException::new);
-        logger.info("Student with id {} is {}",id,findStud);
+        logger.info("Student with id {} is {}", id, findStud);
         return findStud;
     }
 
     @Override
     public Student editStudent(long id, Student student) {
-        logger.info("Was invoked method edit student by id {}",id);
+        logger.info("Was invoked method edit student by id {}", id);
 //        if (!this.studentRepo.findAll().contains(id)) {
 //            logger.error("Student {} not found and cant be edit",id);
 //            throw new StudentNotFoundException();
 //        }
         Student newStud = this.studentRepo.save(student);
-        logger.info("Student with id {} was edit",id);
+        logger.info("Student with id {} was edit", id);
         return newStud;
     }
 
@@ -55,11 +54,11 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(long id) {
         logger.info("Was invoked method delete student by id");
         if (!this.studentRepo.findAll().contains(id)) {
-            logger.error("Student with id {} not found",id);
+            logger.error("Student with id {} not found", id);
             throw new StudentNotFoundException();
         }
         this.studentRepo.deleteById(id);
-        logger.info("student with id {} was deleted",id);
+        logger.info("student with id {} was deleted", id);
     }
 
     @Override
@@ -67,10 +66,10 @@ public class StudentServiceImpl implements StudentService {
         logger.info("Was invoked method find student by age");
         Collection<Student> byAge = studentRepo.findByAge(age);
         if (byAge.isEmpty()) {
-            logger.error("Student with age {} not found",age);
+            logger.error("Student with age {} not found", age);
             throw new StudentNotFoundException();
         }
-        logger.info("Student by age {} is {}",age,byAge);
+        logger.info("Student by age {} is {}", age, byAge);
         return byAge;
     }
 
@@ -82,7 +81,7 @@ public class StudentServiceImpl implements StudentService {
             logger.error("There are no any students");
             throw new StudentNotFoundException();
         }
-        logger.info("All students: {}",all);
+        logger.info("All students: {}", all);
         return all;
     }
 
@@ -91,10 +90,10 @@ public class StudentServiceImpl implements StudentService {
         logger.info("Was invoked method to find all students between ages");
         Collection<Student> findAll = this.studentRepo.findAllByAgeBetween(from, to);
         if (findAll.isEmpty()) {
-            logger.error("There are no any students between {} and {}",from,to);
+            logger.error("There are no any students between {} and {}", from, to);
             throw new StudentNotFoundException();
         }
-        logger.info("Students between age {} and {} are {}",from,to,findAll);
+        logger.info("Students between age {} and {} are {}", from, to, findAll);
         return findAll;
     }
 
@@ -105,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
             logger.error("We have 0 Students");
             throw new StudentNotFoundException();
         }
-        logger.info("There are {} students",count);
+        logger.info("There are {} students", count);
         return count;
     }
 
@@ -116,7 +115,7 @@ public class StudentServiceImpl implements StudentService {
             logger.error("We have 0 Students");
             throw new StudentNotFoundException();
         }
-        logger.info("Average age of students is {}",avg);
+        logger.info("Average age of students is {}", avg);
         return avg;
     }
 
@@ -127,7 +126,23 @@ public class StudentServiceImpl implements StudentService {
             logger.error("We have 0 Students");
             throw new StudentNotFoundException();
         }
-        logger.info("Last 5 students by id : {} ",studentList);
+        logger.info("Last 5 students by id : {} ", studentList);
         return studentList;
+    }
+
+    @Override
+    public Collection<Student> findAllSortedByA() {
+        List<Student> colStud = studentRepo.findAll().stream()
+                .filter(student -> student.getName().startsWith("A"))
+                .sorted(Comparator.comparing(Student::getName))
+                .collect(Collectors.toList());
+        return colStud;
+    }
+
+    @Override
+    public Double streamGetAverageAge() {
+        return studentRepo.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average().orElseThrow();
     }
 }

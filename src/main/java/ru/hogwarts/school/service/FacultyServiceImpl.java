@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.repo.FacultyRepo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -16,7 +17,7 @@ public class FacultyServiceImpl implements FacultyService {
         this.facultyRepo = facultyRepo;
     }
 
-    Logger logger = LoggerFactory.getLogger(FacultyServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(FacultyServiceImpl.class);
 
     @Override
     public Faculty addFaculty(Faculty faculty) {
@@ -69,6 +70,13 @@ public class FacultyServiceImpl implements FacultyService {
         Collection<Faculty> facByNameOrColor = this.facultyRepo.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color);
         logger.info("Fac by name {} or color is {}", name, color);
         return facByNameOrColor;
+    }
+
+    @Override
+    public Faculty findFacBiggerLength() {
+        return facultyRepo.findAll().stream()
+                .max(Comparator.comparingInt(f -> f.getName().length()))
+                .orElseThrow();
     }
 
 }
