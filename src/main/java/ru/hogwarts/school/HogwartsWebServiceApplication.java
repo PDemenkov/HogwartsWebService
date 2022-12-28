@@ -12,6 +12,4 @@ public class HogwartsWebServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(HogwartsWebServiceApplication.class, args);
     }
-
-
 }

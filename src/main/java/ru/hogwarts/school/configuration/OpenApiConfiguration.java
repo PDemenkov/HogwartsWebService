@@ -16,6 +16,8 @@ public class OpenApiConfiguration {
                         .version("1.0.0")
                         .description("API to manage Hogwarts"))
                 .addTagsItem(new Tag().name("student").description("Student management API"))
-                .addTagsItem(new Tag().name("faculty").description("Faculty management API"));
+                .addTagsItem(new Tag().name("faculty").description("Faculty management API"))
+                .addTagsItem(new Tag().name("avatar").description("Set avatar to student"))
+                .addTagsItem(new Tag().name("counter").description("Aggregation functions"));
     }
 }
