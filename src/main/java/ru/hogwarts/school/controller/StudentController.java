@@ -10,6 +10,7 @@ import ru.hogwarts.school.model.Student;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.service.StudentService;
+import ru.hogwarts.school.service.StudentServiceImpl;
 
 import java.util.Collection;
 
@@ -19,7 +20,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentServiceImpl studentService) {
         this.studentService = studentService;
     }
 
@@ -109,5 +110,17 @@ public class StudentController {
     @Operation(summary = "Average age of all students by stream", tags = "student")
     public Double streamGetAverageAgeStream() {
         return studentService.streamGetAverageAge();
+    }
+
+    @GetMapping("/thread/1")
+    @Operation(summary = "first 6 stud non sync with 2 threads")
+    public void nonSync() {
+        this.studentService.print6StudentsNameInThreadNotSync();
+    }
+
+    @GetMapping("/thread/2")
+    @Operation(summary = "first 6 stud sync with 2 threads")
+    public void Sync() {
+        this.studentService.print6StudentsNameSynchronized();
     }
 }

@@ -22,4 +22,8 @@ public interface StudentService {
     Collection<Student> findAllSortedByA();
 
     Double streamGetAverageAge();
+
+    void print6StudentsNameInThreadNotSync();
+
+    void print6StudentsNameSynchronized();
 }

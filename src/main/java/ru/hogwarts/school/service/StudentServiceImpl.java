@@ -22,6 +22,7 @@ public class StudentServiceImpl implements StudentService {
         this.countRepo = countRepo;
     }
 
+    public Object lock = new Object();
     private final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     @Override
@@ -144,5 +145,49 @@ public class StudentServiceImpl implements StudentService {
         return studentRepo.findAll().stream()
                 .mapToInt(Student::getAge)
                 .average().orElseThrow();
+    }
+
+    @Override
+    public void print6StudentsNameInThreadNotSync() {
+        logger.info("Was invoked method for thread non synchronized");
+        List<Student> list = this.studentRepo.findAll();
+        System.out.println(list.get(0).getName());
+        System.out.println(list.get(1).getName());
+        new Thread(() -> {
+            System.out.println(list.get(2).getName());
+            System.out.println(list.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            System.out.println(list.get(4).getName());
+            System.out.println(list.get(5).getName());
+        }).start();
+    }
+
+    @Override
+    public void print6StudentsNameSynchronized() {
+        logger.info("Was invoked method for Synchronized");
+        List<Student> list = studentRepo.findAll();
+        System.out.println(list.get(0).getName());
+        System.out.println(list.get(1).getName());
+        new Thread(() -> {
+            firstTwoSync(list.get(2).getName(), list.get(3).getName());
+        }).start();
+        new Thread(() -> {
+            secondTwoSync(list.get(4).getName(), list.get(5).getName());
+        }).start();
+    }
+
+    private void firstTwoSync(String name1, String name2) {
+        synchronized (lock) {
+            System.out.println(name1);
+            System.out.println(name2);
+        }
+    }
+
+    private void secondTwoSync(String name1, String name2) {
+        synchronized (lock) {
+            System.out.println(name1);
+            System.out.println(name2);
+        }
     }
 }
