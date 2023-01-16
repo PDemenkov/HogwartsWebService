@@ -16,4 +16,14 @@ public interface StudentService {
     Collection<Student> findByAge(int age);
 
     Collection<Student> getAllStud();
+
+    Collection<Student> findAllByAgeBetween(int from, int to);
+
+    Collection<Student> findAllSortedByA();
+
+    Double streamGetAverageAge();
+
+    void print6StudentsNameInThreadNotSync();
+
+    void print6StudentsNameSynchronized();
 }
